@@ -10,7 +10,7 @@ class TCPSocket {
 
     public:
         void begin();
-        void handleConnection();
+        bool handleConnection();
         void sendData(void *data, size_t size);
 
 };

@@ -103,12 +103,14 @@ void setup(){
 void loop(){
 	TCPSocket leSocket;
 	leSocket.begin();
+	
 	while(1) {
 		Serial.println("Waiting for request...");
-		leSocket.handleConnection();
 
-		unsigned short int sensorValue = getSensorValue();
-		leSocket.sendData(((void * )sensorValue), sizeof(sensorValue));
+		if(leSocket.handleConnection()){
+			unsigned short int sensorValue = getSensorValue();
+			leSocket.sendData(((void * )sensorValue), sizeof(sensorValue));
+		}
 	}
 }
 
