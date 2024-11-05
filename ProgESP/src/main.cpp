@@ -6,7 +6,8 @@
 
 //#define TestBluetooth
 //#define TestCapteur
-#define ProgrPrincipal
+#define TestEcran
+//#define ProgrPrincipal
 
 #ifdef TestBluetooth
 BluetoothSerial SerialBT;
@@ -48,6 +49,52 @@ void loop(){
 }
 #endif
 
+#ifdef TestEcran
+
+
+Adafruit_SSD1306 Ecran;
+
+static const unsigned char PROGMEM logo_bluetooth[] = 
+{
+  B00000011, B10000000,
+  B00000011, B11000000,
+  B01100011, B01100000,
+  B00110011, B00110000,
+  B00011011, B00011000,
+  B00001111, B00110000,
+  B00000111, B01100000,
+  B00000011, B11000000,
+
+  B00000011, B11000000,
+  B00000111, B01100000,
+  B00001111, B00110000,
+  B00011011, B00011000,
+  B00110011, B00110000,
+  B01100011, B01100000,
+  B00000011, B11000000,
+  B00000011, B10000000,
+};
+
+
+void setup(){
+
+	Ecran.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+
+	Ecran.clearDisplay();
+	Ecran.drawBitmap((Ecran.width()  - 16 ) / 2,
+    (Ecran.height() - 16) / 2,
+    logo_bluetooth, 16, 16, 1);
+	Ecran.display();
+
+	Ecran.~Adafruit_SSD1306();
+}
+
+void loop(){
+
+}
+
+#endif
+
 #ifdef ProgrPrincipal
 
 BluetoothSerial SerialBT;
@@ -59,15 +106,17 @@ void connectToWifi(){
 	while(nomWifi.length() == 0){
 		nomWifi = SerialBT.readStringUntil('\n');
 	}
+
 	nomWifi.trim();
-	Serial.println(nomWifi);
+
   	Serial.println("Envoyez le mot de passe wifi via bluetooth");
 
 	while(mdpWifi.length() == 0){
   		mdpWifi = SerialBT.readStringUntil('\n');
 	}
+
 	mdpWifi.trim();
-	Serial.println(mdpWifi);
+
 	WiFi.mode(WIFI_STA);
 	WiFi.begin(nomWifi.c_str(), mdpWifi.c_str());
 
@@ -103,7 +152,7 @@ void setup(){
 
 void loop(){
 	TCPSocket leSocket;
-	Serial.println("AAAAAA");
+
 	leSocket.begin();
 
 	while(1) {
