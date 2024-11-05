@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <WiFi.h>
 #include <BluetoothSerial.h>
+#include <Adafruit_SSD1306.h>
 #include "TCPSocket.h"
 
 //#define TestBluetooth
@@ -58,14 +59,14 @@ void connectToWifi(){
 	while(nomWifi.length() == 0){
 		nomWifi = SerialBT.readStringUntil('\n');
 	}
-
+	nomWifi.trim();
 	Serial.println(nomWifi);
   	Serial.println("Envoyez le mot de passe wifi via bluetooth");
 
 	while(mdpWifi.length() == 0){
   		mdpWifi = SerialBT.readStringUntil('\n');
 	}
-
+	mdpWifi.trim();
 	Serial.println(mdpWifi);
 	WiFi.mode(WIFI_STA);
 	WiFi.begin(nomWifi.c_str(), mdpWifi.c_str());
@@ -79,16 +80,15 @@ void connectToWifi(){
 	SerialBT.print(WiFi.localIP());
 }
 
-unsigned short int getSensorValue(){
+unsigned short int getSensorValue() {
 
-	int in_analog_1;
-	unsigned short int moisissure;
-	const int PIN = A0;
+    int in_analog_1;
+    const int PIN = A0;
 
-	in_analog_1 = analogRead(PIN);
-  	moisissure = (100-((in_analog_1/4095.00)*100));
+    in_analog_1 = analogRead(PIN);
+    unsigned short int moisissure = (100-((in_analog_1/4095.00)*100));
 
-	return moisissure;
+    return moisissure;
 }
 
 void setup(){
@@ -96,21 +96,25 @@ void setup(){
   	SerialBT.begin("ESP32SENSOR");
   	
 	connectToWifi();
+	delay(200);
 
 	SerialBT.end();
 }
 
 void loop(){
 	TCPSocket leSocket;
+	Serial.println("AAAAAA");
 	leSocket.begin();
-	
+
 	while(1) {
 		Serial.println("Waiting for request...");
 
 		if(leSocket.handleConnection()){
 			unsigned short int sensorValue = getSensorValue();
-			leSocket.sendData(((void * )sensorValue), sizeof(sensorValue));
+			leSocket.sendData(&sensorValue, sizeof(sensorValue));
 		}
+
+		delay(500);
 	}
 }
 

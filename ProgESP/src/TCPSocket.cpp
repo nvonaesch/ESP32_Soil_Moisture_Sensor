@@ -9,8 +9,10 @@ void TCPSocket::begin(){
 bool TCPSocket::handleConnection(){
     client  = server->available();   
     if(client){
-        Serial.printf("[+] Client trouve: %s", client.localIP());
+        Serial.printf("[+] Client trouve: %s\n", client.localIP().toString());
+        return true;
     }
+    return false;
 }
 
 void TCPSocket::sendData(void *data, size_t size){
