@@ -51,9 +51,9 @@ void loop(){
 
 #ifdef TestEcran
 
-
 Adafruit_SSD1306 Ecran;
 
+//Bitmap représentant le logo Bluetooth
 static const unsigned char PROGMEM logo_bluetooth[] = 
 {
   B00000011, B10000000,
@@ -77,15 +77,20 @@ static const unsigned char PROGMEM logo_bluetooth[] =
 
 
 void setup(){
-
+	//Initialisation de la communication via le bus I2C à l'adresse 0x3C
 	Ecran.begin(SSD1306_SWITCHCAPVCC, 0x3C);
 
+	//Efface l'écran
 	Ecran.clearDisplay();
+	
+	//Ecrit sur l'écran la bitmap "logo_bluetooth"
 	Ecran.drawBitmap((Ecran.width()  - 16 ) / 2,
     (Ecran.height() - 16) / 2,
     logo_bluetooth, 16, 16, 1);
+	//Rafraichit l'écran affichant donc la bitmap
 	Ecran.display();
 
+	//Déstruction de l'objet écran
 	Ecran.~Adafruit_SSD1306();
 }
 
@@ -100,6 +105,8 @@ void loop(){
 BluetoothSerial SerialBT;
 String nomWifi, mdpWifi;
 
+//Demande à recevoir en bluetooth les logs du WiFi, se connecte à celui-ci 
+//puis renvoie en bluetooth son adresse ip associée
 void connectToWifi(){
 	Serial.println("Envoyez le nom du wifi via bluetooth");
 
@@ -131,9 +138,11 @@ void connectToWifi(){
 
 unsigned short int getSensorValue() {
 
+	//PIN A0 Capteur vers PIN VP Board
     int in_analog_1;
     const int PIN = A0;
 
+	//Convertion de la valeur du capteur en pourcentage
     in_analog_1 = analogRead(PIN);
     unsigned short int moisissure = (100-((in_analog_1/4095.00)*100));
 
@@ -141,23 +150,30 @@ unsigned short int getSensorValue() {
 }
 
 void setup(){
+	//Initialisation de la liaison série et du bluetooth
   	Serial.begin(115200);
   	SerialBT.begin("ESP32SENSOR");
   	
+	//L'on se connecte au Wi-Fi
 	connectToWifi();
+
+	//Delai nécessaire pour que la transmission de l'adresse ip assignée par le réseau 
+	//soit entierement envoyée sur le bluetooth
 	delay(200);
 
+	//Fin de la transmission bluetooth
 	SerialBT.end();
 }
 
 void loop(){
+	//Crée un Serveur TCP sur le port 9090
 	TCPSocket leSocket;
-
 	leSocket.begin();
 
 	while(1) {
 		Serial.println("Waiting for request...");
 
+		//Si un client se connecte alors l'on lui envoie les valeurs du capteurs
 		if(leSocket.handleConnection()){
 			unsigned short int sensorValue = getSensorValue();
 			leSocket.sendData(&sensorValue, sizeof(sensorValue));

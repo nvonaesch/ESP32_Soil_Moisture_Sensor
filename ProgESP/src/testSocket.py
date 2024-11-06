@@ -1,6 +1,6 @@
 import socket
 
-IP = '192.168.1.83'  
+IP = '192.168.1.83'  # A remplacer par l'adresse renvoyée par bluetooth
 PORT = 9090  
 
 def request_sensor_data():
