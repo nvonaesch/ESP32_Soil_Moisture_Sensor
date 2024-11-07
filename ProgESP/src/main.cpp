@@ -76,6 +76,17 @@ static const unsigned char PROGMEM logo_bluetooth[] =
 };
 
 
+static const unsigned char PROGMEM logo_wifi[] = {
+  B00000000, B00000000, B00000000,
+  B00000000, B00000000, B00000000,
+  B00000000, B11111111, B00000000,
+  B00000111, B00000000, B11100000,
+  B00011000, B00111100, B00011000,
+  B00000000, B11000011, B00000000,
+  B00000000, B00000000, B00000000,
+  B00000000, B00011000, B00000000,
+};
+
 void setup(){
 	//Initialisation de la communication via le bus I2C à l'adresse 0x3C
 	Ecran.begin(SSD1306_SWITCHCAPVCC, 0x3C);
@@ -84,9 +95,9 @@ void setup(){
 	Ecran.clearDisplay();
 	
 	//Ecrit sur l'écran la bitmap "logo_bluetooth"
-	Ecran.drawBitmap((Ecran.width()  - 16 ) / 2,
-    (Ecran.height() - 16) / 2,
-    logo_bluetooth, 16, 16, 1);
+	Ecran.drawBitmap((Ecran.width()  - 24 ) / 2, // Position X
+    (Ecran.height() - 8) / 2, 					 // Position Y
+    logo_wifi, 24, 8, 1); // Bitmap, Longueur, Largeur, Couleur
 	//Rafraichit l'écran affichant donc la bitmap
 	Ecran.display();
 
