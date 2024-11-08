@@ -1,3 +1,10 @@
+//Utiliser git:
+//git add .
+//git commit -m "le message"
+//git push https://github.com/nvonaesch/ESP32_Soil_Moisture_Sensor main
+
+
+
 #include <Arduino.h>
 #include <WiFi.h>
 #include <BluetoothSerial.h>
@@ -6,8 +13,8 @@
 
 //#define TestBluetooth
 //#define TestCapteur
-#define TestEcran
-//#define ProgrPrincipal
+//#define TestEcran
+#define ProgrPrincipal
 
 #ifdef TestBluetooth
 BluetoothSerial SerialBT;
@@ -56,23 +63,32 @@ Adafruit_SSD1306 Ecran;
 //Bitmap représentant le logo Bluetooth
 static const unsigned char PROGMEM logo_bluetooth[] = 
 {
-  B00000011, B10000000,
-  B00000011, B11000000,
-  B01100011, B01100000,
-  B00110011, B00110000,
-  B00011011, B00011000,
-  B00001111, B00110000,
-  B00000111, B01100000,
-  B00000011, B11000000,
+  B00000000, B00000000, B00111111, B11000000,B00000000,
+  B00000000, B00000000, B00111100, B00111000,B00000000,
+  B00000000, B00000000, B00111100, B00000111,B00000000,
+  B00000000, B00000000, B00111100, B00000000,B11100000,
+  B00000000, B00000000, B00111100, B00000000,B00011100,
+  B00000000, B00000000, B00111100, B00000000,B00000111,
+  B00000000, B00000000, B00111100, B00000000,B00000111,
+  B00011110, B00000000, B00111100, B00000000,B00011100,
 
-  B00000011, B11000000,
-  B00000111, B01100000,
-  B00001111, B00110000,
-  B00011011, B00011000,
-  B00110011, B00110000,
-  B01100011, B01100000,
-  B00000011, B11000000,
-  B00000011, B10000000,
+  B00000011, B10000000, B00111100, B00000000,B11100000,
+  B00000000, B01110000, B00111100, B00001111,B00000000,
+  B00000000, B00011100, B00111100, B00111000,B00000000,
+  B00000000, B00000111, B11111111, B11100000,B00000000,
+  B00000000, B00000000, B11111111, B11100000,B00000000,
+  B00000000, B00000111, B00111100, B00111000,B00000000,
+  B00000000, B00011100, B00111100, B00001111,B00000000,
+  B00000000, B01110000, B00111100, B00000000,B11100000,
+
+  B00000011, B10000000, B00111100, B00000000,B00011100,
+  B00011110, B00000000, B00111100, B00000000,B00000111,
+  B00000000, B00000000, B00111100, B00000000,B00000111,
+  B00000000, B00000000, B00111100, B00000000,B00011100,
+  B00000000, B00000000, B00111100, B00000000,B11100000,
+  B00000000, B00000000, B00111100, B00000111,B00000000,
+  B00000000, B00000000, B00111100, B00111000,B00000000,
+  B00000000, B00000000, B00111111, B11000000,B00000000,
 };
 
 
@@ -94,16 +110,17 @@ void setup(){
 	//Efface l'écran
 	Ecran.clearDisplay();
 	
-	//Ecrit sur l'écran la bitmap "logo_bluetooth"
-	Ecran.drawBitmap((Ecran.width()  - 24 ) / 2, // Position X
-    (Ecran.height() - 8) / 2, 					 // Position Y
-    logo_wifi, 24, 8, 1); // Bitmap, Longueur, Largeur, Couleur
+	//Ecrit sur l'écran la bitmap "logo_bluetooth" ecran 128x64, pos départ huat gauche (0,0)
+	Ecran.drawBitmap((Ecran.width()-130) / 2, // Position X
+    (Ecran.height() - 24) / 2, 					 // Position Y
+    logo_bluetooth, 40, 24, 1); // Bitmap, Longueur, Largeur, Couleur
 	//Rafraichit l'écran affichant donc la bitmap
 	Ecran.display();
 
 	//Déstruction de l'objet écran
 	Ecran.~Adafruit_SSD1306();
 }
+
 
 void loop(){
 
@@ -116,10 +133,77 @@ void loop(){
 BluetoothSerial SerialBT;
 String nomWifi, mdpWifi;
 
+Adafruit_SSD1306 Ecran;
+
+//Bitmap représentant le logo Bluetooth
+static const unsigned char PROGMEM logo_bluetooth[] = 
+{
+  B00000000, B00000000, B00111111, B11000000,B00000000,
+  B00000000, B00000000, B00111100, B00111000,B00000000,
+  B00000000, B00000000, B00111100, B00000111,B00000000,
+  B00000000, B00000000, B00111100, B00000000,B11100000,
+  B00000000, B00000000, B00111100, B00000000,B00011100,
+  B00000000, B00000000, B00111100, B00000000,B00000111,
+  B00000000, B00000000, B00111100, B00000000,B00000111,
+  B00011110, B00000000, B00111100, B00000000,B00011100,
+
+  B00000011, B10000000, B00111100, B00000000,B11100000,
+  B00000000, B01110000, B00111100, B00001111,B00000000,
+  B00000000, B00011100, B00111100, B00111000,B00000000,
+  B00000000, B00000111, B11111111, B11100000,B00000000,
+  B00000000, B00000000, B11111111, B11100000,B00000000,
+  B00000000, B00000111, B00111100, B00111000,B00000000,
+  B00000000, B00011100, B00111100, B00001111,B00000000,
+  B00000000, B01110000, B00111100, B00000000,B11100000,
+
+  B00000011, B10000000, B00111100, B00000000,B00011100,
+  B00011110, B00000000, B00111100, B00000000,B00000111,
+  B00000000, B00000000, B00111100, B00000000,B00000111,
+  B00000000, B00000000, B00111100, B00000000,B00011100,
+  B00000000, B00000000, B00111100, B00000000,B11100000,
+  B00000000, B00000000, B00111100, B00000111,B00000000,
+  B00000000, B00000000, B00111100, B00111000,B00000000,
+  B00000000, B00000000, B00111111, B11000000,B00000000,
+};
+
+
+static const unsigned char PROGMEM logo_wifi[] = {
+  B00000000, B00000000, B00000000,
+  B00000000, B00000000, B00000000,
+  B00000000, B11111111, B00000000,
+  B00000111, B00000000, B11100000,
+  B00011000, B00111100, B00011000,
+  B00000000, B11000011, B00000000,
+  B00000000, B00000000, B00000000,
+  B00000000, B00011000, B00000000,
+};
+
+void afficheLogoWIFI(){
+	Ecran.clearDisplay();
+	//Ecrit sur l'écran la bitmap "logo_bluetooth" ecran 128x64, pos départ huat gauche (0,0)
+	Ecran.drawBitmap((Ecran.width()-130) / 2, // Position X
+    (Ecran.height() - 24) / 2, 					 // Position Y
+    logo_wifi, 40, 24, 1); // Bitmap, Longueur, Largeur, Couleur
+	//Rafraichit l'écran affichant donc la bitmap
+}
+
 //Demande à recevoir en bluetooth les logs du WiFi, se connecte à celui-ci 
 //puis renvoie en bluetooth son adresse ip associée
-void connectToWifi(){
-	Serial.println("Envoyez le nom du wifi via bluetooth");
+void connectToWifi(Adafruit_SSD1306 Ecran){
+	
+	Ecran.clearDisplay();
+	afficheLogoWIFI();
+
+	Ecran.setTextSize(1);
+	Ecran.setTextColor(WHITE);
+	Ecran.setCursor(60,3);
+	Ecran.println("Attente");
+	Ecran.setCursor(60,13);
+	Ecran.println("informations");
+	Ecran.setCursor(60,23);
+	Ecran.println("WIFI");
+	//Serial.println("Envoyez le nom du wifi via bluetooth");
+	Ecran.display();
 
 	while(nomWifi.length() == 0){
 		nomWifi = SerialBT.readStringUntil('\n');
@@ -138,7 +222,19 @@ void connectToWifi(){
 	WiFi.mode(WIFI_STA);
 	WiFi.begin(nomWifi.c_str(), mdpWifi.c_str());
 
-	Serial.println("[+] Connexion en cours");
+	afficheLogoWIFI();
+	Ecran.setTextSize(1);
+	Ecran.setTextColor(WHITE);
+	Ecran.setCursor(60,3);
+	Ecran.println("Connexion");
+	Ecran.setCursor(60,13);
+	Ecran.println("WIFI");
+	Ecran.setCursor(60,23);
+	Ecran.println("en cours");
+	//Serial.println("Envoyez le nom du wifi via bluetooth");
+	Ecran.display();
+
+	//Serial.println("[+] Connexion en cours");
 	while(WiFi.status() != WL_CONNECTED){
         Serial.print(".");
         delay(200);
@@ -160,13 +256,41 @@ unsigned short int getSensorValue() {
     return moisissure;
 }
 
+void affichageBluetooth(){
+
+	Ecran.clearDisplay();
+	//Ecrit sur l'écran la bitmap "logo_bluetooth" ecran 128x64, pos départ huat gauche (0,0)
+	Ecran.drawBitmap((Ecran.width()-130) / 2, // Position X
+    (Ecran.height() - 24) / 2, 					 // Position Y
+    logo_bluetooth, 40, 24, 1); // Bitmap, Longueur, Largeur, Couleur
+	//Rafraichit l'écran affichant donc la bitmap
+
+	Ecran.setTextSize(1);
+	Ecran.setTextColor(WHITE);
+	Ecran.setCursor(60,3);
+	Ecran.println("Connexion");
+	Ecran.setCursor(60,13);
+	Ecran.println("bluetooth");
+	Ecran.setCursor(60,23);
+	Ecran.println("active");
+
+	Ecran.display();
+}
+
 void setup(){
 	//Initialisation de la liaison série et du bluetooth
+	
+	//Initialisation de la communication via le bus I2C à l'adresse 0x3C
+	Ecran.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+
+	//Affichage du logo bluetooth
+	affichageBluetooth();
+
   	Serial.begin(115200);
   	SerialBT.begin("ESP32SENSOR");
   	
 	//L'on se connecte au Wi-Fi
-	connectToWifi();
+	connectToWifi(Ecran);
 
 	//Delai nécessaire pour que la transmission de l'adresse ip assignée par le réseau 
 	//soit entierement envoyée sur le bluetooth
@@ -192,6 +316,7 @@ void loop(){
 
 		delay(500);
 	}
+	Ecran.~Adafruit_SSD1306();
 }
 
 #endif
