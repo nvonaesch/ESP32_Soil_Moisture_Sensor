@@ -6,8 +6,8 @@
 
 //#define TestBluetooth
 //#define TestCapteur
-#define TestEcran
-//#define ProgrPrincipal
+//#define TestEcran
+#define ProgrPrincipal
 
 #ifdef TestBluetooth
 BluetoothSerial SerialBT;
@@ -77,8 +77,6 @@ static const unsigned char PROGMEM logo_bluetooth[] =
 
 
 static const unsigned char PROGMEM logo_wifi[] = {
-  B00000000, B00000000, B00000000,
-  B00000000, B00000000, B00000000,
   B00000000, B11111111, B00000000,
   B00000111, B00000000, B11100000,
   B00011000, B00111100, B00011000,
@@ -95,9 +93,10 @@ void setup(){
 	Ecran.clearDisplay();
 	
 	//Ecrit sur l'écran la bitmap "logo_bluetooth"
-	Ecran.drawBitmap((Ecran.width()  - 24 ) / 2, // Position X
-    (Ecran.height() - 8) / 2, 					 // Position Y
-    logo_wifi, 24, 8, 1); // Bitmap, Longueur, Largeur, Couleur
+	Ecran.drawBitmap((Ecran.width()  - 24 ) / 2, 	// Position X
+    (Ecran.height() - 6) / 2, 					 	// Position Y
+    logo_wifi, 24, 6, 1); 							// Bitmap, Longueur, Largeur, Couleur
+	
 	//Rafraichit l'écran affichant donc la bitmap
 	Ecran.display();
 
@@ -134,7 +133,7 @@ void connectToWifi(){
 	}
 
 	mdpWifi.trim();
-
+	
 	WiFi.mode(WIFI_STA);
 	WiFi.begin(nomWifi.c_str(), mdpWifi.c_str());
 
