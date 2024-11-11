@@ -3,18 +3,18 @@
 //git commit -m "le message"
 //git push https://github.com/nvonaesch/ESP32_Soil_Moisture_Sensor main
 
-
-
 #include <Arduino.h>
 #include <WiFi.h>
 #include <BluetoothSerial.h>
 #include <Adafruit_SSD1306.h>
+#include <Preferences.h>
 #include "TCPSocket.h"
 
 //#define TestBluetooth
 //#define TestCapteur
 //#define TestEcran
-#define ProgrPrincipal
+#define  TestGarderLogs
+//#define ProgrPrincipal
 
 #ifdef TestBluetooth
 BluetoothSerial SerialBT;
@@ -166,7 +166,6 @@ static const unsigned char PROGMEM logo_bluetooth[] =
   B00000000, B00000000, B00111111, B11000000,B00000000,
 };
 
-
 static const unsigned char PROGMEM logo_wifi[] = {
   B00000000, B00000000, B00000000,
   B00000000, B00000000, B00000000,
@@ -178,13 +177,12 @@ static const unsigned char PROGMEM logo_wifi[] = {
   B00000000, B00011000, B00000000,
 };
 
-void afficheLogoWIFI(){
-	Ecran.clearDisplay();
-	//Ecrit sur l'écran la bitmap "logo_bluetooth" ecran 128x64, pos départ huat gauche (0,0)
-	Ecran.drawBitmap((Ecran.width()-130) / 2, // Position X
+void afficheLogoWIFI(Adafruit_SSD1306 Ecran){
+	//Ecrit sur l'écran la bitmap "logo_bluetooth" ecran 128x64, pos départ haut gauche (0,0)
+	Ecran.drawBitmap((Ecran.width()-130) / 2, 	 // Position X
     (Ecran.height() - 24) / 2, 					 // Position Y
-    logo_wifi, 40, 24, 1); // Bitmap, Longueur, Largeur, Couleur
-	//Rafraichit l'écran affichant donc la bitmap
+    logo_wifi, 40, 24, 1); 						 // Bitmap, Longueur, Largeur, Couleur
+												 //Rafraichit l'écran affichant donc la bitmap
 }
 
 //Demande à recevoir en bluetooth les logs du WiFi, se connecte à celui-ci 
@@ -192,7 +190,7 @@ void afficheLogoWIFI(){
 void connectToWifi(Adafruit_SSD1306 Ecran){
 	
 	Ecran.clearDisplay();
-	afficheLogoWIFI();
+	afficheLogoWIFI(Ecran);
 
 	Ecran.setTextSize(1);
 	Ecran.setTextColor(WHITE);
@@ -222,7 +220,7 @@ void connectToWifi(Adafruit_SSD1306 Ecran){
 	WiFi.mode(WIFI_STA);
 	WiFi.begin(nomWifi.c_str(), mdpWifi.c_str());
 
-	afficheLogoWIFI();
+	afficheLogoWIFI(Ecran);
 	Ecran.setTextSize(1);
 	Ecran.setTextColor(WHITE);
 	Ecran.setCursor(60,3);
@@ -317,6 +315,26 @@ void loop(){
 		delay(500);
 	}
 	Ecran.~Adafruit_SSD1306();
+}
+
+#endif
+
+#ifdef TestGarderLogs
+
+String nomWifi, mdpWifi;
+Preferences prefLogs;
+
+void setup(){
+	
+	prefLogs.begin("logs", false);
+	nomWifi = prefLogs.getString("nomWifi", nomWifi);
+	mdpWifi = prefLogs.getString("mdpWifi", mdpWifi);
+
+	
+}
+
+void loop(){
+
 }
 
 #endif
