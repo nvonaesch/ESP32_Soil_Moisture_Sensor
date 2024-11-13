@@ -323,14 +323,24 @@ void loop(){
 
 String nomWifi, mdpWifi;
 Preferences prefLogs;
+bool logsSet = false;
 
 void setup(){
 	
 	prefLogs.begin("logs", false);
-	nomWifi = prefLogs.getString("nomWifi", nomWifi);
-	mdpWifi = prefLogs.getString("mdpWifi", mdpWifi);
+	logsSet = prefLogs.getBool("logsSet", false);
 
-	
+	if(!logsSet){
+		//connectToWifi();
+		prefLogs.putString("nomWifi",nomWifi);
+		prefLogs.putString("mdpWifi",mdpWifi);
+		prefLogs.putBool("logsSet", true);
+	} 
+
+	nomWifi = prefLogs.getString("nomWifi", "NULL");
+	mdpWifi = prefLogs.getString("mdpWifi", "NULL");
+
+	prefLogs.end();
 }
 
 void loop(){
