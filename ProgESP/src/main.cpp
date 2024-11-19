@@ -13,8 +13,8 @@
 //#define TestBluetooth
 //#define TestCapteur
 //#define TestEcran
-#define  TestGarderLogs
-//#define ProgrPrincipal
+//#define  TestGarderLogs
+#define ProgrPrincipal
 
 #ifdef TestBluetooth
 BluetoothSerial SerialBT;
@@ -195,32 +195,20 @@ static const unsigned char PROGMEM logo_wifi[] = {
   B00000000,B00000000,B00000000,B00000000,B00000000,
 };
 
-<<<<<<< HEAD
-void afficheLogoWIFI(){
-	Ecran.clearDisplay();
-	//Ecrit sur l'écran la bitmap "logo_wifi" ecran 128x64, pos départ huat gauche (0,0)
-	Ecran.drawBitmap((Ecran.width()-130) / 2, // Position X
-=======
 void afficheLogoWIFI(Adafruit_SSD1306 Ecran){
 	//Ecrit sur l'écran la bitmap "logo_bluetooth" ecran 128x64, pos départ haut gauche (0,0)
 	Ecran.drawBitmap((Ecran.width()-130) / 2, 	 // Position X
->>>>>>> 798b1384bdc20b8e03eb4e2214eae22adff352de
     (Ecran.height() - 24) / 2, 					 // Position Y
     logo_wifi, 40, 24, 1); 						 // Bitmap, Longueur, Largeur, Couleur
 												 //Rafraichit l'écran affichant donc la bitmap
 }
 
-//Demande à recevoir en bluetooth les logs du WiFi, se connecte à celui-ci 
+//Demande à recevoir en bluetooth les logs du WiFi, se connecte à celui-ci ()
 //puis renvoie en bluetooth son adresse ip associée
 void connectToWifi(Adafruit_SSD1306 Ecran){
 	
-<<<<<<< HEAD
-	//Ecran.clearDisplay();
-	afficheLogoWIFI();
-=======
 	Ecran.clearDisplay();
 	afficheLogoWIFI(Ecran);
->>>>>>> 798b1384bdc20b8e03eb4e2214eae22adff352de
 
 	Ecran.setTextSize(1);
 	Ecran.setTextColor(WHITE);
@@ -250,13 +238,7 @@ void connectToWifi(Adafruit_SSD1306 Ecran){
 	WiFi.mode(WIFI_STA);
 	WiFi.begin(nomWifi.c_str(), mdpWifi.c_str());
 
-<<<<<<< HEAD
-	Ecran.clearDisplay();
-	afficheLogoWIFI();
-
-=======
 	afficheLogoWIFI(Ecran);
->>>>>>> 798b1384bdc20b8e03eb4e2214eae22adff352de
 	Ecran.setTextSize(1);
 	Ecran.setTextColor(WHITE);
 	Ecran.setCursor(60,3);
