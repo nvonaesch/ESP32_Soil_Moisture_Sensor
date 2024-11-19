@@ -10,11 +10,17 @@
 #include <Preferences.h>
 #include "TCPSocket.h"
 
+
 //#define TestBluetooth
 //#define TestCapteur
 //#define TestEcran
 //#define  TestGarderLogs
+<<<<<<< HEAD
 #define ProgrPrincipal
+=======
+#define TestAppuiBouton
+//#define ProgrPrincipal
+>>>>>>> 05c960f73cc3db67fec626c4d586ee3f91fff466
 
 #ifdef TestBluetooth
 BluetoothSerial SerialBT;
@@ -380,5 +386,10 @@ void setup(){
 void loop(){
 
 }
+
+#endif
+
+#ifdef TestAppuiBoutton
+
 
 #endif
