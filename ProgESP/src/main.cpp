@@ -169,19 +169,44 @@ static const unsigned char PROGMEM logo_bluetooth[] =
 };
 
 static const unsigned char PROGMEM logo_wifi[] = {
-  B00000000, B00000000, B00000000,
-  B00000000, B00000000, B00000000,
-  B00000000, B11111111, B00000000,
-  B00000111, B00000000, B11100000,
-  B00011000, B00111100, B00011000,
-  B00000000, B11000011, B00000000,
-  B00000000, B00000000, B00000000,
-  B00000000, B00011000, B00000000,
+  B00000000,B00000000,B00000000,B00000000,B00000000,
+  B00000000,B00000000,B00000000,B00000000,B00000000,
+  B00000000,B00000000,B00000000,B00000000,B00000000,
+  B00000000,B00000000,B00111100,B00000000,B00000000,
+  B00000000,B00001111,B11111111,B11110000,B00000000,
+  B00000000,B11111100,B00000000,B00111111,B00000000,
+  B00001111,B11000000,B00000000,B00000011,B11110000,
+  B11111111,B00000000,B00000000,B00000000,B11111111,
+
+  B00000000,B00000000,B00000000,B00000000,B00000000,
+  B00000000,B00000000,B00000000,B00000000,B00000000,
+  B00000000,B00000000,B00000000,B00000000,B00000000,
+  B00000000,B00000000,B00111100,B00000000,B00000000,
+  B00000000,B00001111,B11111111,B11110000,B00000000,
+  B00000000,B11111100,B00000000,B00111111,B00000000,
+  B00001111,B11000000,B00000000,B00000011,B11110000,
+  B00000000,B00000000,B00000000,B00000000,B00000000,
+
+  B00000000,B00000000,B00000000,B00000000,B00000000,
+  B00000000,B00000000,B00000000,B00000000,B00000000,
+  B00000000,B00000000,B00000000,B00000000,B00000000,
+  B00000000,B00000000,B11111111,B00000000,B00000000,
+  B00000000,B00000000,B11111111,B00000000,B00000000,
+  B00000000,B00000000,B11111111,B00000000,B00000000,
+  B00000000,B00000000,B00000000,B00000000,B00000000,
+  B00000000,B00000000,B00000000,B00000000,B00000000,
 };
 
+<<<<<<< HEAD
+void afficheLogoWIFI(){
+	Ecran.clearDisplay();
+	//Ecrit sur l'écran la bitmap "logo_wifi" ecran 128x64, pos départ huat gauche (0,0)
+	Ecran.drawBitmap((Ecran.width()-130) / 2, // Position X
+=======
 void afficheLogoWIFI(Adafruit_SSD1306 Ecran){
 	//Ecrit sur l'écran la bitmap "logo_bluetooth" ecran 128x64, pos départ haut gauche (0,0)
 	Ecran.drawBitmap((Ecran.width()-130) / 2, 	 // Position X
+>>>>>>> 798b1384bdc20b8e03eb4e2214eae22adff352de
     (Ecran.height() - 24) / 2, 					 // Position Y
     logo_wifi, 40, 24, 1); 						 // Bitmap, Longueur, Largeur, Couleur
 												 //Rafraichit l'écran affichant donc la bitmap
@@ -191,8 +216,13 @@ void afficheLogoWIFI(Adafruit_SSD1306 Ecran){
 //puis renvoie en bluetooth son adresse ip associée
 void connectToWifi(Adafruit_SSD1306 Ecran){
 	
+<<<<<<< HEAD
+	//Ecran.clearDisplay();
+	afficheLogoWIFI();
+=======
 	Ecran.clearDisplay();
 	afficheLogoWIFI(Ecran);
+>>>>>>> 798b1384bdc20b8e03eb4e2214eae22adff352de
 
 	Ecran.setTextSize(1);
 	Ecran.setTextColor(WHITE);
@@ -222,7 +252,13 @@ void connectToWifi(Adafruit_SSD1306 Ecran){
 	WiFi.mode(WIFI_STA);
 	WiFi.begin(nomWifi.c_str(), mdpWifi.c_str());
 
+<<<<<<< HEAD
+	Ecran.clearDisplay();
+	afficheLogoWIFI();
+
+=======
 	afficheLogoWIFI(Ecran);
+>>>>>>> 798b1384bdc20b8e03eb4e2214eae22adff352de
 	Ecran.setTextSize(1);
 	Ecran.setTextColor(WHITE);
 	Ecran.setCursor(60,3);
@@ -277,6 +313,21 @@ void affichageBluetooth(){
 	Ecran.display();
 }
 
+void waitingText(){
+
+	Ecran.clearDisplay();
+	Ecran.setTextSize(1);
+	Ecran.setTextColor(WHITE);
+	Ecran.setCursor(60,3);
+	Ecran.println("Waiting");
+	Ecran.setCursor(60,13);
+	Ecran.println("for request");
+	Ecran.setCursor(60,23);
+	Ecran.println("...");
+	Ecran.display();
+}
+
+
 void setup(){
 	//Initialisation de la liaison série et du bluetooth
 	
@@ -306,7 +357,8 @@ void loop(){
 	leSocket.begin();
 
 	while(1) {
-		Serial.println("Waiting for request...");
+		//Serial.println("Waiting for request...");
+		waitingText();
 
 		//Si un client se connecte alors l'on lui envoie les valeurs du capteurs
 		if(leSocket.handleConnection()){
