@@ -10,17 +10,11 @@
 #include <Preferences.h>
 #include "TCPSocket.h"
 
-
 //#define TestBluetooth
 //#define TestCapteur
 //#define TestEcran
 //#define  TestGarderLogs
-<<<<<<< HEAD
 #define ProgrPrincipal
-=======
-#define TestAppuiBouton
-//#define ProgrPrincipal
->>>>>>> 05c960f73cc3db67fec626c4d586ee3f91fff466
 
 #ifdef TestBluetooth
 BluetoothSerial SerialBT;
@@ -201,7 +195,7 @@ static const unsigned char PROGMEM logo_wifi[] = {
   B00000000,B00000000,B00000000,B00000000,B00000000,
 };
 
-void afficheLogoWIFI(Adafruit_SSD1306 Ecran){
+void afficheLogoWIFI(){
 	//Ecrit sur l'écran la bitmap "logo_bluetooth" ecran 128x64, pos départ haut gauche (0,0)
 	Ecran.drawBitmap((Ecran.width()-130) / 2, 	 // Position X
     (Ecran.height() - 24) / 2, 					 // Position Y
@@ -209,20 +203,41 @@ void afficheLogoWIFI(Adafruit_SSD1306 Ecran){
 												 //Rafraichit l'écran affichant donc la bitmap
 }
 
+void affichageBluetooth(){
+
+	Ecran.clearDisplay();
+	//Ecrit sur l'écran la bitmap "logo_bluetooth" ecran 128x64, pos départ huat gauche (0,0)
+	Ecran.drawBitmap((Ecran.width()-130) / 2, // Position X
+    (Ecran.height() - 24) / 2, 					 // Position Y
+    logo_bluetooth, 40, 24, 1); // Bitmap, Longueur, Largeur, Couleur
+	//Rafraichit l'écran affichant donc la bitmap
+
+	Ecran.setTextSize(1);
+	Ecran.setTextColor(WHITE);
+	Ecran.setCursor(60,3);
+	Ecran.println("Connexion");
+	Ecran.setCursor(60,13);
+	Ecran.println("bluetooth");
+	Ecran.setCursor(60,23);
+	Ecran.println("active");
+
+	Ecran.display();
+}
+
 //Demande à recevoir en bluetooth les logs du WiFi, se connecte à celui-ci ()
 //puis renvoie en bluetooth son adresse ip associée
 void connectToWifi(Adafruit_SSD1306 Ecran){
 	
 	Ecran.clearDisplay();
-	afficheLogoWIFI(Ecran);
+	afficheLogoWIFI();
 
 	Ecran.setTextSize(1);
 	Ecran.setTextColor(WHITE);
-	Ecran.setCursor(60,3);
+	Ecran.setCursor(55,3);
 	Ecran.println("Attente");
-	Ecran.setCursor(60,13);
+	Ecran.setCursor(55,13);
 	Ecran.println("informations");
-	Ecran.setCursor(60,23);
+	Ecran.setCursor(55,23);
 	Ecran.println("WIFI");
 	//Serial.println("Envoyez le nom du wifi via bluetooth");
 	Ecran.display();
@@ -244,7 +259,8 @@ void connectToWifi(Adafruit_SSD1306 Ecran){
 	WiFi.mode(WIFI_STA);
 	WiFi.begin(nomWifi.c_str(), mdpWifi.c_str());
 
-	afficheLogoWIFI(Ecran);
+	Ecran.clearDisplay();
+	afficheLogoWIFI();
 	Ecran.setTextSize(1);
 	Ecran.setTextColor(WHITE);
 	Ecran.setCursor(60,3);
@@ -278,30 +294,12 @@ unsigned short int getSensorValue() {
     return moisissure;
 }
 
-void affichageBluetooth(){
 
-	Ecran.clearDisplay();
-	//Ecrit sur l'écran la bitmap "logo_bluetooth" ecran 128x64, pos départ huat gauche (0,0)
-	Ecran.drawBitmap((Ecran.width()-130) / 2, // Position X
-    (Ecran.height() - 24) / 2, 					 // Position Y
-    logo_bluetooth, 40, 24, 1); // Bitmap, Longueur, Largeur, Couleur
-	//Rafraichit l'écran affichant donc la bitmap
-
-	Ecran.setTextSize(1);
-	Ecran.setTextColor(WHITE);
-	Ecran.setCursor(60,3);
-	Ecran.println("Connexion");
-	Ecran.setCursor(60,13);
-	Ecran.println("bluetooth");
-	Ecran.setCursor(60,23);
-	Ecran.println("active");
-
-	Ecran.display();
-}
 
 void waitingText(){
 
 	Ecran.clearDisplay();
+	afficheLogoWIFI();
 	Ecran.setTextSize(1);
 	Ecran.setTextColor(WHITE);
 	Ecran.setCursor(60,3);
@@ -322,9 +320,11 @@ void setup(){
 
 	//Affichage du logo bluetooth
 	affichageBluetooth();
+	sleep(5);
 
   	Serial.begin(115200);
   	SerialBT.begin("ESP32SENSOR");
+
   	
 	//L'on se connecte au Wi-Fi
 	connectToWifi(Ecran);
@@ -386,10 +386,5 @@ void setup(){
 void loop(){
 
 }
-
-#endif
-
-#ifdef TestAppuiBoutton
-
 
 #endif
