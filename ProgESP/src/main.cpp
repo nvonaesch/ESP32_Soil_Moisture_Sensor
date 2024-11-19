@@ -13,8 +13,10 @@
 //#define TestBluetooth
 //#define TestCapteur
 //#define TestEcran
-//#define  TestGarderLogs
-#define ProgrPrincipal
+//#define TestGarderLogs
+//#define TestBouton
+//#define ProgrPrincipal
+#define
 
 #ifdef TestBluetooth
 BluetoothSerial SerialBT;
@@ -388,3 +390,27 @@ void loop(){
 }
 
 #endif
+
+#ifdef TestBouton
+
+const int buttonPin = 23;
+int buttonState = 0;
+
+void setup(){
+	Serial.begin(115200);
+	pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop(){
+	buttonState = digitalRead(buttonPin);
+  	if (buttonState == LOW) { 
+    	Serial.println("btn on");
+  	} else {
+    	Serial.println("btn off");
+  	}
+  	delay(2000);
+}
+
+#endif
+
+#ifdef test
