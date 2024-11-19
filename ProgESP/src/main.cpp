@@ -16,7 +16,7 @@
 //#define TestGarderLogs
 //#define TestBouton
 //#define ProgrPrincipal
-#define
+#define TestCapteurLuminosite
 
 #ifdef TestBluetooth
 BluetoothSerial SerialBT;
@@ -413,4 +413,17 @@ void loop(){
 
 #endif
 
-#ifdef test
+#ifdef TestCapteurLuminosite
+
+const int sensorPin = 23;
+
+void setup(){
+	Serial.begin(115200);
+}
+
+void loop(){
+	Serial.println(digitalRead(sensorPin));
+	delay(300);
+}
+
+#endif
