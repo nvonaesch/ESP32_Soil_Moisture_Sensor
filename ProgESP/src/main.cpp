@@ -15,27 +15,27 @@
 //#define TestEcran
 //#define TestGarderLogs
 //#define TestBouton
-//#define ProgrPrincipal
-#define TestCapteurLuminosite
+//#define TestCapteurLuminosite
+#define ProgrPrincipal
+
 
 #ifdef TestBluetooth
 BluetoothSerial SerialBT;
 
 void setup() {
-  	Serial.begin(115200);
-  	SerialBT.begin("ESP32TEST");
+    Serial.begin(115200);               
+    SerialBT.begin("ESP32TEST");        
 }
 
-
 void loop() {
-  	if (Serial.available() > 0) {
-   		String line = Serial.readStringUntil('\n');
-    
-    	SerialBT.print(line);
-    	Serial.println("Envoyé via Bluetooth : " + line);
-  	}
 
-  	delay(20); 
+    if (SerialBT.available() > 0) {
+        String line = SerialBT.readStringUntil('\n');
+        Serial.print("recu Bluetooth : "); 
+        Serial.println(line);
+    }
+
+    delay(20); 
 }
 #endif
 
@@ -283,7 +283,7 @@ void connectToWifi(Adafruit_SSD1306 Ecran){
 	SerialBT.print(WiFi.localIP());
 }
 
-unsigned short int getSensorValue() {
+unsigned short int getSoilMoistureSensor() {
 
 	//PIN A0 Capteur vers PIN VP Board
     int in_analog_1;
@@ -295,6 +295,12 @@ unsigned short int getSensorValue() {
 
     return moisissure;
 }
+
+int getLuminosityLevel() {
+	const int sensorPin = 23;
+	return digitalRead(sensorPin);
+}
+
 
 
 
@@ -350,7 +356,7 @@ void loop(){
 
 		//Si un client se connecte alors l'on lui envoie les valeurs du capteurs
 		if(leSocket.handleConnection()){
-			unsigned short int sensorValue = getSensorValue();
+			unsigned short int sensorValue = getSoilMoistureSensor();
 			leSocket.sendData(&sensorValue, sizeof(sensorValue));
 		}
 
@@ -427,3 +433,4 @@ void loop(){
 }
 
 #endif
+
