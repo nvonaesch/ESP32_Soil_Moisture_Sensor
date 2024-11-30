@@ -1,6 +1,6 @@
 import socket
 
-IP = '192.168.111.172'  # A remplacer par l'adresse renvoyée par bluetooth
+IP = '192.168.168.172'  # A remplacer par l'adresse renvoyée par bluetooth
 PORT = 9090  
 
 def request_sensor_data():
@@ -12,7 +12,7 @@ def request_sensor_data():
             s.sendall(b'GET_SENSOR_VALUE')
 
             data = s.recv(1024)  
-            print("Valeur capteur :", int.from_bytes(data))
+            print("Valeur capteur :", data.decode("utf-8"))
 
     except ConnectionRefusedError:
         print("Connexion refusee.")

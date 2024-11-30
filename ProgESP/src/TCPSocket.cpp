@@ -2,7 +2,7 @@
 
 //Démarre le serveur sur le port 9090
 void TCPSocket::begin(){
-    Serial.println("[+] Demarrage du serveur");
+    Serial.println("\n[+] Demarrage du serveur");
     server = new WiFiServer(9090);
     server->begin();
 }
