@@ -13,8 +13,8 @@ Finally the ESP32 then sends over TCPSocket the soil measure sensor values.
 To setup PlatformIO run the following command:
 `python3 -m pip install -U platformio`
 
-To intall libraries dependencies run the following commands:
-`pio lib -g install Adafruit SSD1306@^2.5.13` 
+To intall libraries dependencies run the following commands:\
+`pio lib -g install Adafruit SSD1306@^2.5.13`\
 `pio lib -g install Adafruit BME280 Library@^2.2.4`
 
 ## WIRING
