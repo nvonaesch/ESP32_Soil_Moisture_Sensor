@@ -366,6 +366,7 @@ void connectToWifi(Adafruit_SSD1306 Ecran)
 	}
 
 	SerialBT.print(WiFi.localIP());
+	SerialBT.print("\n");
 }
 
 void waitingText()
